@@ -26,5 +26,6 @@ export enum RaceTypesName {
     "Dragonata",    //Default
     "Transformata", //Shapeshifter
     "Vieralinha",   //Biopunk
+    "Assombronata"  //Demon/Shadow
 
 }

@@ -1,25 +1,10 @@
 import { Race } from "./Race";
 import _ from "lodash";
 
-export interface char_AppearanceI {
-  face: string;
-  torso: string;
-  arms: string;
-  feet: string;
-  other: string;
-}
-
-export const char_default_Appearance: char_AppearanceI = {
-  face: "Uma máscara de pano oculta sua face",
-  torso: "Uma longa vestimenta de trapos",
-  arms: "Longas mangas escondem seus braços",
-  feet: "Sua vestimenta cobre seus pés",
-  other: "",
-};
-
-abstract class Character {
-    constructor(name: string, race: Race, appearance: char_AppearanceI) {
+export abstract class Character {
+    constructor(name: string, title: string, race: Race, appearance: string) {
         this._name = name;
+        this._title = title;
         this._race = race;
         this._appearance = char_Create_Appearance(appearance);
         this._max_health = 0;
@@ -31,6 +16,8 @@ abstract class Character {
         this._max_spirit = 0;
         this._curr_spirit = 0;
         this._level = 0;
+        this._curr_xp = 0;
+        this._xp = 0;
         this._strength = 0, this._intelligence = 0, this._dexterity = 0;
         this._charisma = 0, this._spirit = 0, this._luck = 0, this._talent = 0
 
@@ -39,12 +26,12 @@ abstract class Character {
     }
 
     protected _name: string;
+    protected _title: string;
     protected _race: Race;
     protected _appearance: char_AppearanceI;
     //Class
 
     // [ Stats ] //
-
     protected _max_health: number;
     protected _curr_health: number;
 
@@ -58,6 +45,8 @@ abstract class Character {
     protected _curr_spirit: number;
 
     protected _level: number;
+    protected _curr_xp: number;
+    private _xp: number;
 
 
     // [ Attributes  ]
@@ -72,75 +61,56 @@ abstract class Character {
     private _talent: number;             // Ease to learn, xp boost etc
 
 
-    protected get strength(): number {
-        return this._strength;
-    }
-    protected set strength(value: number) {
-        this._strength = value;
-    }
-    protected get intelligence(): number {
-        return this._intelligence;
-    }
-    protected set intelligence(value: number) {
-        this._intelligence = value;
-    }
-    protected get dexterity(): number {
-        return this._dexterity;
-    }
-    protected set dexterity(value: number) {
-        this._dexterity = value;
-    }
-    protected get charisma(): number {
-        return this._charisma;
-    }
-    protected set charisma(value: number) {
-        this._charisma = value;
-    }
-    protected get spirit(): number {
-        return this._spirit;
-    }
-    protected set spirit(value: number) {
-        this._spirit = value;
-    }
-    protected get luck(): number {
-        return this._luck;
-    }
-    protected set luck(value: number) {
-        this._luck = value;
-    }
+    protected get intelligence(): number { return this._intelligence; }
+    protected set intelligence(value: number) { this._intelligence = Math.min(Math.max(value, 0), 200); }
+
+    protected get dexterity(): number { return this._dexterity; }
+    protected set dexterity(value: number) { this._dexterity = Math.min(Math.max(value, 0), 200); }
+
+    protected get strength(): number { return this._strength; }
+    protected set strength(value: number) { this._strength = Math.min(Math.max(value, 0), 200); }
+
+    protected get charisma(): number { return this._charisma; }
+    protected set charisma(value: number) { this._charisma = Math.min(Math.max(value, 0), 200); }
+
+    protected get spirit(): number { return this._spirit; }
+    protected set spirit(value: number) { this._spirit = Math.min(Math.max(value, 0), 200); }
+
+    protected get luck(): number { return this._luck; }
+    protected set luck(value: number) { this._luck = Math.min(Math.max(value, 0), 200); }
+
+    protected get talent(): number { return this._talent; }
+    protected set talent(value: number) { this._talent = Math.min(Math.max(value, 0), 10); }
 
 
+    protected get max_health(): number { return this._max_health; }
+    protected set max_health(value: number) { this._max_health = Math.min(Math.max(value, 1), 90000); }
 
-    protected get max_health(): number {
-        return this._max_health;
-    }
-    protected set max_health(value: number) {
-        this._max_health = value;
-    }
+    protected get max_energy(): number { return this._max_energy; }
+    protected set max_energy(value: number) { this._max_energy = Math.min(Math.max(value, 0), 90000); }
 
-    protected get max_energy(): number {
-        return this._max_energy;
-    }
-    protected set max_energy(value: number) {
-        this._max_energy = value;
-    }
+    protected get max_mana(): number { return this._max_mana; }
+    protected set max_mana(value: number) { this._max_mana = Math.min(Math.max(value, 0), 90000); }
 
-    protected get max_mana(): number {
-        return this._max_mana;
-    }
-    protected set max_mana(value: number) {
-        this._max_mana = value;
-    }
+    protected get max_spirit(): number { return this._max_spirit; }
+    protected set max_spirit(value: number) { this._max_spirit = Math.min(Math.max(value, 0), 90000); }
 
-    protected get max_spirit(): number {
-        return this._max_spirit;
-    }
-    protected set max_spirit(value: number) {
-        this._max_spirit = value;
-    }
+    protected get level(): number { return this._level; }
+    protected set level(value: number) { this._level = Math.min(Math.max(value, 0), 100); }
 
-    protected get level(): number {
-        return this._level;
+    protected get xp(): number { return this._xp; }
+    protected set xp(value: number) {
+        //The amount of XP for leveling up
+        let level_xp_amount = Math.round((4 * (this._level ^ 3)) / 5);
+        let local_xp_amount = this._xp + value;
+
+        if (local_xp_amount >= level_xp_amount) {
+
+            this._xp = level_xp_amount - local_xp_amount;
+            this._level++;
+            return;
+        }
+        this._xp += value;
     }
     protected set level(value: number) {
         this._level = value;
@@ -151,15 +121,6 @@ abstract class Character {
     protected set talent(value: number) {
         this._talent = value;
     }
-}
 
-function char_Create_Appearance(_char_app: char_AppearanceI){
-  for (var k in _char_app) {
-    _char_app[k as keyof char_AppearanceI] = _char_app[
-      k as keyof char_AppearanceI
-    ]
-      ? _char_app[k as keyof char_AppearanceI]
-      : char_default_Appearance[k as keyof char_AppearanceI];
-  }
-  return _char_app;
+
 }
