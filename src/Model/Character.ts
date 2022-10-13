@@ -1,10 +1,27 @@
 import { Race } from "./Race";
+import _ from "lodash";
+
+export interface char_AppearanceI {
+  face: string;
+  torso: string;
+  arms: string;
+  feet: string;
+  other: string;
+}
+
+export const char_default_Appearance: char_AppearanceI = {
+  face: "Uma máscara de pano oculta sua face",
+  torso: "Uma longa vestimenta de trapos",
+  arms: "Longas mangas escondem seus braços",
+  feet: "Sua vestimenta cobre seus pés",
+  other: "",
+};
 
 abstract class Character {
-    constructor(name: string, race: Race, appearance: string) {
+    constructor(name: string, race: Race, appearance: char_AppearanceI) {
         this._name = name;
         this._race = race;
-        this._appearance = appearance;
+        this._appearance = char_Create_Appearance(appearance);
         this._max_health = 0;
         this._curr_health = 0;
         this._max_energy = 0;
@@ -23,7 +40,7 @@ abstract class Character {
 
     protected _name: string;
     protected _race: Race;
-    protected _appearance: string;
+    protected _appearance: char_AppearanceI;
     //Class
 
     // [ Stats ] //
@@ -134,6 +151,15 @@ abstract class Character {
     protected set talent(value: number) {
         this._talent = value;
     }
+}
 
-
+function char_Create_Appearance(_char_app: char_AppearanceI){
+  for (var k in _char_app) {
+    _char_app[k as keyof char_AppearanceI] = _char_app[
+      k as keyof char_AppearanceI
+    ]
+      ? _char_app[k as keyof char_AppearanceI]
+      : char_default_Appearance[k as keyof char_AppearanceI];
+  }
+  return _char_app;
 }
