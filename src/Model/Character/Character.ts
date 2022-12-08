@@ -1,34 +1,42 @@
 import { Race } from "./Race";
+import {CClass} from "./Class";
 import _ from "lodash";
 
-export abstract class Character {
-    constructor(name: string, title: string, race: Race, appearance: string) {
+export class Character {
+    constructor(name: string, title: string, race: Race, cclass: CClass, max_health: number, curr_health: number,
+        max_energy: number, curr_energy: number, max_mana: number, curr_mana: number, max_spirit: number,
+        curr_spirit: number, level: number, curr_xp: number, xp: number, strength: number, intelligence: number,
+        dexterity: number, charisma: number, spirit: number, luck: number, talent: number, appearance: string) {
         this._name = name;
         this._title = title;
         this._race = race;
-        this._appearance = char_Create_Appearance(appearance);
-        this._max_health = 0;
-        this._curr_health = 0;
-        this._max_energy = 0;
-        this._curr_energy = 0;
-        this._max_mana = 0;
-        this._curr_mana = 0;
-        this._max_spirit = 0;
-        this._curr_spirit = 0;
-        this._level = 0;
-        this._curr_xp = 0;
-        this._xp = 0;
-        this._strength = 0, this._intelligence = 0, this._dexterity = 0;
-        this._charisma = 0, this._spirit = 0, this._luck = 0, this._talent = 0
+        this._cclass = cclass;
+        this._max_health = max_health;
+        this._curr_health = curr_health;
+        this._max_energy = max_energy;
+        this._curr_energy = curr_energy;
+        this._max_mana = max_mana;
+        this._curr_mana = curr_mana;
+        this._max_spirit = max_spirit;
+        this._curr_spirit = curr_spirit;
+        this._level = level;
+        this._curr_xp = curr_xp;
+        this._xp = xp;
+        this._strength = strength, this._intelligence = intelligence, this._dexterity = dexterity;
+        this._charisma = charisma, this._spirit = spirit, this._luck = luck, this._talent = talent;
+
+        this._appearance = appearance;
 
         //TODO: SET ALL --> by level || DB 
 
     }
 
+    // [ Character Info ] //
     protected _name: string;
     protected _title: string;
     protected _race: Race;
-    protected _appearance: char_AppearanceI;
+    protected _cclass: CClass;
+    protected _appearance: string;
     //Class
 
     // [ Stats ] //
@@ -112,15 +120,4 @@ export abstract class Character {
         }
         this._xp += value;
     }
-    protected set level(value: number) {
-        this._level = value;
-    }
-    protected get talent(): number {
-        return this._talent;
-    }
-    protected set talent(value: number) {
-        this._talent = value;
-    }
-
-
 }
