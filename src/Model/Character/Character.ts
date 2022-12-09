@@ -1,9 +1,10 @@
 import { Race } from "./Race";
 import { CClass } from "./Class";
 import _ from "lodash";
+import { Place, Position } from "../World/Place";
 
 export class Character {
-    constructor(id: number, name: string, title: string, race: Race, cclass: CClass, max_health: number, curr_health: number,
+    constructor(id: number, name: string, title: string, race: Race, cclass: CClass, position: Position, place: Place, max_health: number, curr_health: number,
         max_energy: number, curr_energy: number, max_mana: number, curr_mana: number, max_spirit: number,
         curr_spirit: number, level: number, curr_xp: number, xp: number, strength: number, intelligence: number,
         dexterity: number, charisma: number, spirit: number, luck: number, talent: number, appearance: string) {
@@ -12,6 +13,10 @@ export class Character {
         this._title = title;
         this._race = race;
         this._cclass = cclass;
+        this._position = position;
+        this._place = place;
+
+        // [ Stats ] //
         this._max_health = max_health;
         this._curr_health = curr_health;
         this._max_energy = max_energy;
@@ -39,6 +44,8 @@ export class Character {
     public _race: Race;
     public _cclass: CClass;
     public _appearance: string;
+    public _position: Position;
+    public _place: Place;
     //Class
 
     // [ Stats ] //
