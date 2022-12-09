@@ -1,12 +1,13 @@
 import { Race } from "./Race";
-import {CClass} from "./Class";
+import { CClass } from "./Class";
 import _ from "lodash";
 
 export class Character {
-    constructor(name: string, title: string, race: Race, cclass: CClass, max_health: number, curr_health: number,
+    constructor(id: number, name: string, title: string, race: Race, cclass: CClass, max_health: number, curr_health: number,
         max_energy: number, curr_energy: number, max_mana: number, curr_mana: number, max_spirit: number,
         curr_spirit: number, level: number, curr_xp: number, xp: number, strength: number, intelligence: number,
         dexterity: number, charisma: number, spirit: number, luck: number, talent: number, appearance: string) {
+        this.id = id;
         this._name = name;
         this._title = title;
         this._race = race;
@@ -32,28 +33,29 @@ export class Character {
     }
 
     // [ Character Info ] //
-    protected _name: string;
-    protected _title: string;
-    protected _race: Race;
-    protected _cclass: CClass;
-    protected _appearance: string;
+    public id: number;
+    public _name: string;
+    public _title: string;
+    public _race: Race;
+    public _cclass: CClass;
+    public _appearance: string;
     //Class
 
     // [ Stats ] //
-    protected _max_health: number;
-    protected _curr_health: number;
+    public _max_health: number;
+    public _curr_health: number;
 
-    protected _max_energy: number;
-    protected _curr_energy: number;
+    public _max_energy: number;
+    public _curr_energy: number;
 
-    protected _max_mana: number;
-    protected _curr_mana: number;
+    public _max_mana: number;
+    public _curr_mana: number;
 
-    protected _max_spirit: number;
-    protected _curr_spirit: number;
+    public _max_spirit: number;
+    public _curr_spirit: number;
 
-    protected _level: number;
-    protected _curr_xp: number;
+    public _level: number;
+    public _curr_xp: number;
     private _xp: number;
 
 
@@ -69,45 +71,45 @@ export class Character {
     private _talent: number;             // Ease to learn, xp boost etc
 
 
-    protected get intelligence(): number { return this._intelligence; }
-    protected set intelligence(value: number) { this._intelligence = Math.min(Math.max(value, 0), 200); }
+    public get intelligence(): number { return this._intelligence; }
+    public set intelligence(value: number) { this._intelligence = Math.min(Math.max(value, 0), 200); }
 
-    protected get dexterity(): number { return this._dexterity; }
-    protected set dexterity(value: number) { this._dexterity = Math.min(Math.max(value, 0), 200); }
+    public get dexterity(): number { return this._dexterity; }
+    public set dexterity(value: number) { this._dexterity = Math.min(Math.max(value, 0), 200); }
 
-    protected get strength(): number { return this._strength; }
-    protected set strength(value: number) { this._strength = Math.min(Math.max(value, 0), 200); }
+    public get strength(): number { return this._strength; }
+    public set strength(value: number) { this._strength = Math.min(Math.max(value, 0), 200); }
 
-    protected get charisma(): number { return this._charisma; }
-    protected set charisma(value: number) { this._charisma = Math.min(Math.max(value, 0), 200); }
+    public get charisma(): number { return this._charisma; }
+    public set charisma(value: number) { this._charisma = Math.min(Math.max(value, 0), 200); }
 
-    protected get spirit(): number { return this._spirit; }
-    protected set spirit(value: number) { this._spirit = Math.min(Math.max(value, 0), 200); }
+    public get spirit(): number { return this._spirit; }
+    public set spirit(value: number) { this._spirit = Math.min(Math.max(value, 0), 200); }
 
-    protected get luck(): number { return this._luck; }
-    protected set luck(value: number) { this._luck = Math.min(Math.max(value, 0), 200); }
+    public get luck(): number { return this._luck; }
+    public set luck(value: number) { this._luck = Math.min(Math.max(value, 0), 200); }
 
-    protected get talent(): number { return this._talent; }
-    protected set talent(value: number) { this._talent = Math.min(Math.max(value, 0), 10); }
+    public get talent(): number { return this._talent; }
+    public set talent(value: number) { this._talent = Math.min(Math.max(value, 0), 10); }
 
 
-    protected get max_health(): number { return this._max_health; }
-    protected set max_health(value: number) { this._max_health = Math.min(Math.max(value, 1), 90000); }
+    public get max_health(): number { return this._max_health; }
+    public set max_health(value: number) { this._max_health = Math.min(Math.max(value, 1), 90000); }
 
-    protected get max_energy(): number { return this._max_energy; }
-    protected set max_energy(value: number) { this._max_energy = Math.min(Math.max(value, 0), 90000); }
+    public get max_energy(): number { return this._max_energy; }
+    public set max_energy(value: number) { this._max_energy = Math.min(Math.max(value, 0), 90000); }
 
-    protected get max_mana(): number { return this._max_mana; }
-    protected set max_mana(value: number) { this._max_mana = Math.min(Math.max(value, 0), 90000); }
+    public get max_mana(): number { return this._max_mana; }
+    public set max_mana(value: number) { this._max_mana = Math.min(Math.max(value, 0), 90000); }
 
-    protected get max_spirit(): number { return this._max_spirit; }
-    protected set max_spirit(value: number) { this._max_spirit = Math.min(Math.max(value, 0), 90000); }
+    public get max_spirit(): number { return this._max_spirit; }
+    public set max_spirit(value: number) { this._max_spirit = Math.min(Math.max(value, 0), 90000); }
 
-    protected get level(): number { return this._level; }
-    protected set level(value: number) { this._level = Math.min(Math.max(value, 0), 100); }
+    public get level(): number { return this._level; }
+    public set level(value: number) { this._level = Math.min(Math.max(value, 0), 100); }
 
-    protected get xp(): number { return this._xp; }
-    protected set xp(value: number) {
+    public get xp(): number { return this._xp; }
+    public set xp(value: number) {
         //The amount of XP for leveling up
         let level_xp_amount = Math.round((4 * (this._level ^ 3)) / 5);
         let local_xp_amount = this._xp + value;

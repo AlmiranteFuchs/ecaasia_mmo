@@ -4,9 +4,10 @@ import { CClass, ClassTypesName } from "./Model/Character/Class";
 
 import { json_db } from "./Model/Database/DbConstructor";
 
-const race = new Race(RaceTypesName.Assombronata, 0, 0, 0, 0, 0, 0, 0);
-const classs = new CClass(ClassTypesName.Bruxo, 0, 0, 0, 0, 0, 0, 0);
 
-const char = new Character("Teste", "Knight", race, classs, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,"Gordo");
+async function main() {
+    //let test: Character | null = await json_db.get_character(26);
+    //console.log(test?._name);
+}
 
-json_db.create_character(char);
+main();
