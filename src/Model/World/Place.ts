@@ -1,10 +1,11 @@
 // This represents a place where a player can go to and interact with.
 
-export abstract class Place {
-    constructor(public id: number, public name: string, public description: string, public type: PlaceTypes, public place: Place) { }
+export class Place {
+    constructor(public id: number, public name: string, public description: string,
+        public type: PlaceTypes, public place: Place | null, public start_pos:Position, public ending_pos:Position) { }
 
     // Matrix of places
-    public readonly abstract _places: Place[][];
+    public readonly _places: Place[][] | undefined;
 
 }
 

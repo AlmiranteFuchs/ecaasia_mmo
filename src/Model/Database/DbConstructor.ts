@@ -7,9 +7,31 @@ export abstract class json_db {
 
     private static json: string = "src/placeholder_db.json";
 
+    // Check if database exists
+    public static async check_db(): Promise<boolean> {
+        console.log("DB: Checking if database exists");
+
+        if (await fs.access(this.json).then(() => true).catch(() => false)) {
+            //console.log("DB: Database exists");
+            return true;
+        }
+
+        // Create the database
+        console.log("DB: Database doesn't exists, creating one");
+        await fs.writeFile(this.json, JSON.stringify({ players: [], characters: [], world: [] })).catch(err => {
+            console.log("DB: Error creating file: ", err);
+        });
+        return false;
+    }
+
     // Creates a character in the database
     public static async create_character(char: Character): Promise<boolean> {
         console.log("DB: Creating new character: ", char._name);
+
+        if (!json_db.check_db()) {
+            console.log("DB: Error creating character, no db");
+            return false;
+        }
 
         // Read the file
         const data = await fs.readFile(this.json, "utf-8");
@@ -40,6 +62,11 @@ export abstract class json_db {
     // Updates a character in the database
     public static async update_character(char: Character): Promise<boolean> {
         console.log("DB: Updating character: ", char._name);
+
+        if (!json_db.check_db()) {
+            console.log("DB: Error updating character, no db");
+            return false;
+        }
 
         // Read the file
         const data = await fs.readFile(this.json, "utf-8");
@@ -81,6 +108,11 @@ export abstract class json_db {
     // Gets a character in the database
     public static async get_character(char_id: number): Promise<Character | null> {
         console.log("DB: Getting character via id: ", char_id);
+
+        if (!(await json_db.check_db())) {
+            console.log("DB: Error getting character, no db");
+            return null;
+        }
 
         // Read the file
         const data = await fs.readFile(this.json, "utf-8");
