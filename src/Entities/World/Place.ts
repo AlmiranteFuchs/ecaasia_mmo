@@ -2,10 +2,11 @@
 
 export class Place {
     constructor(public id: number, public name: string, public description: string,
-        public type: PlaceTypes, public place: Place | null, public start_pos:Position, public ending_pos:Position) { }
+        public type: PlaceTypes, public start_pos:Position, public ending_pos:Position) { }
 
     // Matrix of places
     public readonly _places: Place[][] | undefined;
+
 
 }
 
@@ -26,7 +27,7 @@ export enum PlaceTypes {
     "Mina",
 }
 
-export interface Position {
+export type Position = {
     x: number;
     y: number;
-}
+};
