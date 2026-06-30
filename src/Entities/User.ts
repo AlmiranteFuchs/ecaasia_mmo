@@ -12,8 +12,8 @@ export class User {
   @Column({type: 'varchar'})
   phonenumber: number;
 
-  @Column({type: 'varchar'})
-  email: string;
+  @Column({type: 'varchar', nullable: true})
+  email: string | null;
 
   @Column({type: 'varchar'})
   password: string;

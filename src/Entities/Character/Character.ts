@@ -1,7 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { Race } from "./Race";
 import { CClass } from "./Class";
 import { User } from "../User";
+import { Place } from "../World/Place";
+import { Inventory } from "../Item/Inventory";
 
 @Entity()
 export class Character {
@@ -80,14 +82,27 @@ export class Character {
     private talent: number;
 
 
-    @ManyToOne(() => Race)
+    @ManyToOne(() => Race, race => race.characters)
     race: Race;
 
-    @ManyToOne(() => CClass)
+    @ManyToOne(() => CClass, cclass => cclass.characters)
     cclass: CClass;
 
     @ManyToOne(() => User, user => user.characters)
     user: User;
+
+    @ManyToOne(() => Place, place => place.characters)
+    currentPlace: Place;
+
+    // Local position within the current place (for fine-grained movement)
+    @Column({ type: 'int', default: 0 })
+    local_x: number;
+
+    @Column({ type: 'int', default: 0 })
+    local_y: number;
+
+    @OneToMany(() => Inventory, inventory => inventory.character)
+    inventory: Inventory[];
 
 
     // [ Getters and Setters ] //
